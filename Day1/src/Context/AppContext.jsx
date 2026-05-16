@@ -5,10 +5,6 @@ const AppContext = createContext();
 export const AppContextProvider  = ({children}) =>{
 
     const [tasks,setTasks] = useState([
-        {id:1, Task:"Reading juz Qura,an"},
-        {id:2, Task:"making haoot and outd"},
-        {id:3, Task:"Making practice pernstack"},
-        {id:4, Task:"making d"}
     ]);
 
 
@@ -16,9 +12,16 @@ const handleChange = (task)=>{
     setTasks()
 }
 
+//addTask 
+const addTask = (inputData,setOpenEdit)=>{
+    if(inputData){
+        setTasks((prev)=>([...prev,{Task:inputData,id:tasks.length += 1}]))
+    }
+    setOpenEdit(false)
+}
 
     const value = {
-        tasks,setTasks
+        tasks,setTasks,addTask
     };
 
     return <AppContext.Provider value={value}>
