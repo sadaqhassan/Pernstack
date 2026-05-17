@@ -20,8 +20,28 @@ const addTask = (inputData,setOpenEdit)=>{
     setOpenEdit(false)
 }
 
+//updateTask
+const TheupdateTask = (updating,updatTask,setOpenEdit)=>{
+const updatedTask = tasks.map((task)=>{
+
+    if(task.id === updatTask.id){
+    return {...task,Task:updating};
+    }
+    return task;
+  });
+
+  setTasks(updatedTask);
+  setOpenEdit(false)
+}
+
+//delete task
+const deleteTask = (id)=>{
+  setTasks(tasks.filter((task)=>task.id !== id));
+}
+
     const value = {
-        tasks,setTasks,addTask
+        tasks,setTasks,addTask,
+        TheupdateTask,deleteTask
     };
 
     return <AppContext.Provider value={value}>
