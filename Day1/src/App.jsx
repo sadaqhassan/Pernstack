@@ -7,31 +7,13 @@ const App = () => {
   const [state,setState] = useState("update");
   const [inputData,setInputData] = useState("");
   const [updateTask ,setUpdateTask] = useState({})
-  const {tasks,setTasks,addTask} = useAppContext()
+  const {tasks,setTasks,addTask,TheupdateTask,deleteTask} = useAppContext()
   const [updating,setUpdating] = useState("")
 
 const handleChange  = (e)=>{
   setUpdating(e.target.value);
 };
 
-const handleSubmit = ()=>{
-const updatedTask = tasks.map((task)=>{
-
-    if(task.id === updateTask.id){
-      return {...task,Task:updating};
-    }
-    return task;
-  });
-
-  setTasks(updatedTask);
-  setOpenEdit(false)
-}
-
-
-//delete task
-const handleDelete = (id)=>{
-  setTasks(tasks.filter((task)=>task.id !== id));
-}
 
   return (
     <div className='flex flex-col justify-center items-center '>
@@ -49,12 +31,12 @@ const handleDelete = (id)=>{
           <p className='text-md font-bold'>{task.Task}</p>
           <div className='flex flex-wrap space-x-3'>
           <button className='bg-green-600 text-white text-sm px-2 py-1 rounded ' onClick={()=>{setOpenEdit(true) ; setUpdateTask(task); setState("update")}}>Edit</button>
-          <button  className='bg-red-600 text-white text-sm px-2 py-1 rounded ' onClick={()=>handleDelete(task.id)}>Delete</button>
+          <button  className='bg-red-600 text-white text-sm px-2 py-1 rounded ' onClick={()=>deleteTask(task.id)}>Delete</button>
           </div>
           </div>
         ))
         :
-        <p className='flex  text-center px-2 py-2 rounded  bg-cyan-600 text-white'>There's no Task</p>
+        <p className='flex  text-center px-2 py-2 rounded   text-cyan-900'>There's no Task</p>
       }
       
       
@@ -70,7 +52,7 @@ const handleDelete = (id)=>{
           :
           <input onChange={(e)=>setInputData(e.target.value)} placeholder='add task new....' type="text" className='bg-white px-3 py-2 rounded text-black font-bold'/>
         }
-        <button onClick={()=>{state === "update" ? handleSubmit : addTask(inputData,setOpenEdit)}} className='bg-green-600 text-white text-sm px-2 py-1 rounded mt-5'>{state === "update" ? "Edit" : "Add"}</button>
+        <button onClick={()=>{state === "update" ? TheupdateTask(updating,updateTask,setOpenEdit) : addTask(inputData,setOpenEdit)}} className='bg-green-600 text-white text-sm px-2 py-1 rounded mt-5'>{state === "update" ? "Edit" : "Add"}</button>
       </div>
       </div>
       }
