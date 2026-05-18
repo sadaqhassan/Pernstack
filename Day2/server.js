@@ -27,14 +27,14 @@ app.post('/add-task',async(req,res)=>{
 
 // ..getTsks
 
-app.get('/',async(req,res)=>{
+app.get('/getTasks',async(req,res)=>{
     try {
         const getTasks = await pooling.query(
             `
-            select * from tasks 
+            SELECT * FROM TASKS 
             `
-        )
-        res.send(getTasks);
+        );
+        res.send(getTasks.rows);
     } catch (error) {
         console.log(error)
     }
