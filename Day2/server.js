@@ -54,13 +54,13 @@ app.delete('/delete-task/:id',async(req,res)=>{
     }
 })
 
-app.put('/update-task',async(req,res)=>{
+app.put('/update-task/:id',async(req,res)=>{
     const {id} = req.params
     const {name} = req.body
     try {
         const task = await pooling.query(
             `
-            UPDATE FROM tasks SET (name) VALUES($2) WHERE id = $1
+            UPDATE  tasks SET name = $2 WHERE id = $1 RETURNING *
             `[id,name]
         );
 
