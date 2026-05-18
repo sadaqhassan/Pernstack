@@ -54,16 +54,18 @@ const addTask = async(inputData,setOpenEdit)=>{
 
 
 //updateTask
-const TheupdateTask = (updating,updatTask,setOpenEdit)=>{
-const updatedTask = tasks.map((task)=>{
-
-    if(task.id === updatTask.id){
-    return {...task,Task:updating};
+const TheupdateTask = async(updating,setOpenEdit)=>{
+    const res = await fetch(`http://localhost:4000/update-task/${id}`,{
+        method:"PUT",
+        headers:{"content-type"  : "application/json"},
+        body:JSON.stringify({name:inputing})
+    })
+    const data = await res.json();
+    if(data.success){
+    fetchTasks()
+    toast.success(data.message);
     }
-    return task;
-  });
 
-  setTasks(updatedTask);
   setOpenEdit(false)
 }
 
