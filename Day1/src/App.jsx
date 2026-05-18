@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useAppContext } from './Context/AppContext'
+import {Toaster} from 'react-hot-toast'
 
 const App = () => {
 
+  
   const [openEdit ,setOpenEdit] = useState(false)
   const [state,setState] = useState("update");
   const [inputData,setInputData] = useState("");
   const [updateTask ,setUpdateTask] = useState({})
-  const {tasks,setTasks,addTask,TheupdateTask,deleteTask} = useAppContext()
+  const {tasks,setTasks,addTask,TheupdateTask,deleteTask,tasksData} = useAppContext()
   const [updating,setUpdating] = useState("")
 
 const handleChange  = (e)=>{
@@ -17,6 +19,7 @@ const handleChange  = (e)=>{
 
   return (
     <div className='flex flex-col justify-center items-center '>
+      {<Toaster/>}
       <div className='mb-5 flex justify-between space-x-5 mt-30 max-w-xl md:min-w-5xl'>
       <p className='flex  text-center px-2 py-2 rounded  bg-cyan-600 text-white'>TODO APP PERNSTACK</p>
       <button className='bg-cyan-600 px-2 py-1 rounded-xl text-white' onClick={()=>{setState("addnew"); setOpenEdit(true)}}>Add new +</button>
@@ -24,11 +27,11 @@ const handleChange  = (e)=>{
       <div className='flex flex-col items-start py-4 space-y-5  px-3 bg-gray-50'>
     
       {
-        tasks.length > 0 ?
-        tasks.map((task,index)=>(
+        tasksData.length > 0 ?
+        tasksData.map((task,index)=>(
 
           <div className='md:flex flex-wrap border-b p-4 justify-between  px-3  md:min-w-5xl text-start '>
-          <p className='text-md font-bold'>{task.Task}</p>
+          <p className='text-md font-bold'>{task.name}</p>
           <div className='flex flex-wrap space-x-3'>
           <button className='bg-green-600 text-white text-sm px-2 py-1 rounded ' onClick={()=>{setOpenEdit(true) ; setUpdateTask(task); setState("update")}}>Edit</button>
           <button  className='bg-red-600 text-white text-sm px-2 py-1 rounded ' onClick={()=>deleteTask(task.id)}>Delete</button>
