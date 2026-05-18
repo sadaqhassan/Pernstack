@@ -18,7 +18,7 @@ app.post('/add-task',async(req,res)=>{
         const newTask = await pooling.query(`
             INSERT INTO TASKS (name) VALUES($1)
             `,[name]);
-        res.send(newTask);
+        res.json({success:true,newTask});
     } catch (error) {
         console.log(error)
     }
@@ -27,19 +27,48 @@ app.post('/add-task',async(req,res)=>{
 
 // ..getTsks
 
-app.get('/getTasks',async(req,res)=>{
+app.get('/get-tasks',async(req,res)=>{
     try {
         const getTasks = await pooling.query(
             `
             SELECT * FROM TASKS 
             `
         );
-        res.send(getTasks.rows);
+        res.json({data:getTasks.rows});
     } catch (error) {
         console.log(error)
     }
 }
 );
+
+
+app.delete('/delete-task/:id',async(req,res)=>{
+    const {id} = req.params
+    try {
+        const task = await pooling.query(`
+            DELETE FROM  tasks WHERE id = $1
+            `,[id]);
+            res.json({success:true,message:"deleted successfully"})
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.put('/update-task',async(req,res)=>{
+    const {id} = req.params
+    const {name} = req.body
+    try {
+        const task = await pooling.query(
+            `
+            UPDATE FROM tasks SET (name) VALUES($2) WHERE id = $1
+            `[id,name]
+        );
+
+        res.json({success: true , message:"update succesfully"})
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 const port = process.env.PORT
 
